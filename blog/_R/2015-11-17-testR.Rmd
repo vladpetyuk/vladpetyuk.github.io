@@ -1,15 +1,21 @@
 ---
 layout: default
-title: Test R
+title: Testing R
 subtitle: How to make an R post with a graph
 categories: category1
 body-class: categoryclass
 tags: [R, visualization]
 ---
 
-Let's see how to make post in R.
+I am planning to post quite a few things on computation and R. This is a basic post that demonstrates the capability.
+
+1. the `.Rmd` file is created as usual. It should be in `/blog/_R` folder
+2. Run `_knitposts.R` from the main directory of the repository. The paths should be set accordingly so it knows where to take the `.Rmd` file from and where to put the resulting `.md` and picture files for rendering with [Jekyll](https://jekyllrb.com/).
+3. It should be good to go now.
+
 
 ```{r}
+set.seed(0)
 x <- rnorm(10)
 y <- rnorm(10)
 plot(x, y)
