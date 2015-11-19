@@ -12,4 +12,4 @@ As an acknowledgement I'd like to point out a few `github.io` sites that I used 
 
 * [ouzor.github.io](http://ouzor.github.io)
 * [nicolewhite.github.io](http://nicolewhite.github.io)
-* [lgatt0.github.io](http://lgatt0.github.io)
+* [lgatto.github.io](http://lgatto.github.io)

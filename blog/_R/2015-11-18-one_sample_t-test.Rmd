@@ -1,0 +1,86 @@
+---
+layout: default
+title: T-test 101
+subtitle: What is t-test and why it works
+categories: category1
+body-class: categoryclass
+tags: [R, NHST]
+---
+
+
+T-test is one of the basic tests used in biology (and perhaps most 
+others scientific disciplines). However, it is not always interpreted correctly.
+Hopefully, this small demo will help understanding what the t-test is and 
+what question is answers.
+
+Let's generate a sample.
+```{r generate_sample}
+set.seed(0)
+N <- 5
+sample_x <- rnorm(N, mean=0, sd=1)
+plot(sample_x, ylim=c(min(0,sample_x),max(0,sample_x)))
+abline(h=0, col='red')
+mean(sample_x)
+```
+
+Now the question is if the mean of the sample is different from some value.
+Typically the question is (or can be reduce down to) if the sample mean is 
+different from zero. A quantity or statistic how far away the sample mean from
+the NULL mean is so-called [t-statistic](https://en.wikipedia.org/wiki/T-statistic).
+\\[ t = \frac{\bar{x}-\mu}{\frac{s}{\sqrt{N}}} \\]
+
+Let's compute the t-statitic assuming the NULL mean value = 0.
+```{r, sample_t_stat}
+mu_null <- 0
+sample_t_stat <- (mean(sample_x)-mu_null)/(sd(sample_x)/sqrt(N))
+print(sample_t_stat)
+```
+
+Hence, our doubt that the mean of the sample is actually not any different from
+the NULL value can be posed in a more quantitative way. That is:
+
+*What is the probability of achieving as big or more extreme t-statistic 
+for a sample with the mean equal to the NULL mean?*
+
+Let's calculate this probability directly by generating 1 million random 
+samples with mean equal to zero.
+
+As a first step we'll generate random samples with mean equal to the NULL mean.
+The actual value of the standard deviation at this point does not matter.
+The t-statistic is scaled by the standard deviation anyway.
+```{r, simulation}
+N_simulations <- 1000000
+sim_x <- replicate(N_simulations, rnorm(N,mu_null,sd=1))
+print(sim_x[,1:5])
+```
+
+Calculating t-statistics for 1 million random samples.
+```{r, sim_t_stats}
+sim_x_mean_diff <- colMeans(sim_x) - mu_null
+sim_x_std_err <- apply(sim_x, 2, sd)/sqrt(N)
+sim_t_stats <- sim_x_mean_diff/sim_x_std_err 
+```
+
+How often the t-statistic from the random samples is more extreme then the 
+t-statistic of the tested sample?
+
+First let's make it clear why we are concerned with both higher and lower 
+deviations. It is because we do not say specifically if the sample mean is higher
+then or lower then the NULL mean. Our sceptical statement is just that it is 
+different. Difference can go both ways - higher and lower. Thus we count 
+deviations on both tails.
+```{r, two_tails}
+hist(sim_t_stats, 100)
+abline(v=c(-sample_t_stat,+sample_t_stat), col='red')
+
+equal_or_more_extreme <- abs(sim_t_stats) >= abs(sample_t_stat)
+calc_p_val <- sum(equal_or_more_extreme)/N_simulations
+print(calc_p_val)
+```
+
+The actual t-test p-value is:
+```{r}
+print(t.test(sample_x)$p.value)
+```
+
+Very close!

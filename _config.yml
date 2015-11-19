@@ -73,7 +73,8 @@ url-pretty: "vladpetyuk.github.io"  # eg. "deanattali.com/beautiful-jekyll"
 # Output options (more information on Jekyll's site)
 timezone: "America/Vancouver"
 markdown: kramdown
-encoding: utf-8
+# markdown: redcarpet
+#encoding: utf-8
 highlighter: pygments
 permalink: /:year-:month-:day-:title
 paginate: 5
