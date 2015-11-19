@@ -1,24 +1,20 @@
 ---
 layout: page
-title: About me
-subtitle: The essentials
+title: about me
+subtitle: to be evolved
 ---
 
-**Work**: Since 2014, I have been working as a data scientist at [Reaktor].
+**Work**: Since 2004 I have been working as a scientist at [Pacific Northwest National Laboratory][PNNL].
 
-**Education**: I finish my PhD in the [Statistical Machine Learning and Bioinformatics][smlb] at Aalto University in 2014. In my thesis I developed and applied probabilistic machine learning methods to biomedical applications. See more about my research in the [Projects][proj-research] page.
+**Education**: I finished my PhD in the [Novosibirsk State University][NSU] in 2001. My thesis was focused on thermodynamics and kinetics of nucleic acid interaction involving structured regions. See my publications at [NCBI collection][ncbi_collection] page.
 
-**Open knowledge**: On my spare time I have been creating open source tools for handling open data in the [Louhos][] and [rOpenGov][] projects. See more at the [Projects][proj-opentools] page.
+**Reaserch Focus**: Proteomics, thorough data analysis, systems biology, neurodegenerative disorders and aging.
 
-**Hobbies**: Ultimate frisbee, freeskiing, kiteskiing, photography, cycling. 
+<!--
+**Hobbies**: I kind of actually like science. Really fascinated with good old w
+-->
 
 
-
-[Reaktor]: http://reaktor.fi/
-[smlb]: http://research.ics.aalto.fi/mi/
-[Projects]: /projects.html
-[proj-research]: /projects.html#research
-[Louhos]: http://louhos.github.io/
-[rOpenGov]: http://ropengov.github.io/
-[proj-opentools]: /projects.html#opentools
-[proj-openknow]: /projects.html#openknow
+[PNNL]: http://www.pnnl.gov
+[NSU]: http://www.nsu.ru
+[ncbi_collection]: http://www.ncbi.nlm.nih.gov/myncbi/browse/collection/48526650/

@@ -1,0 +1,17 @@
+---
+layout: default
+title: Test R
+subtitle: How to make an R post with a graph
+categories: category1
+body-class: categoryclass
+tags: [R, visualization]
+---
+
+Let's see how to make post in R.
+
+```{r}
+x <- rnorm(10)
+y <- rnorm(10)
+plot(x, y)
+```
+

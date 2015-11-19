@@ -1,20 +1,30 @@
 ---
 layout: page
-title: welcome
-subtitle: to the Vlad Petyuk's website
+title: posts
+subtitle: a place to vent
 ---
 
-<!--
-<div class="main-explain-area jumbotron">
-  <p>Your website is ready!</p>
-  <p>After editing the <code>_config.yml</code> file to personalize your site's settings, you can start writing blog posts or pages.<p>
-  <p>Below are sample posts for illustration purposes.</p>
-</div>
--->
+<!--## Posty Postyarychiii-->
 
 <!--
+{% for post in site.posts %}
+{% if post.categories contains 'category1' %}
+  <div class="post">
+    <h3 class="title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
+    <p class="meta">{{ post.date | date_to_string}}</p>
+    <div class="entry">
+     {{ post.content | strip_html | truncatewords: 100 }}
+    </div>
+ </div>
+{% endif %}
+{% endfor %}
+-->
+
+
+{% for post in site.posts %}
+{% if post.categories contains 'category1' %}
 <div class="posts-list">
-  {% for post in paginator.posts %}
+
   <article class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
 	  <h2 class="post-title">{{ post.title }}</h2>
@@ -36,15 +46,9 @@ subtitle: to the Vlad Petyuk's website
     </div>
   
    </article>
-  {% endfor %}
 </div>
--->
 
-<!--
 {% if paginator.total_pages > 1 %}
--->
-
-<!--
 <ul class="pager main-pager">
   {% if paginator.previous_page %}
   <li class="previous">
@@ -58,5 +62,24 @@ subtitle: to the Vlad Petyuk's website
   {% endif %}
 </ul>
 {% endif %}
+
+{% endif %}
+{% endfor %}
+
+
+
+
+
+<!--
+{% for post in site.posts %}
+{% if post.categories contains 'category1' %}
+   * {{ post.date | date_to_string }} &raquo; [ {{ post.title }} ]({{ post.url }})
+{% endif %}
+{% endfor %}
 -->
 
+<!--
+layout: default
+title: Blog1
+category: blog1
+-->
