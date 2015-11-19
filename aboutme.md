@@ -7,8 +7,8 @@ subtitle: to be evolved
 **Work**: Since 2004 I have been working as a scientist at [Pacific Northwest National Laboratory][PNNL].
 
 **Education**: 
-* **Formal:** I finished my PhD in the [Novosibirsk State University][NSU] in 2001. My thesis was focused on thermodynamics and kinetics of nucleic acid interaction involving structured regions. See my publications at [NCBI collection][ncbi_collection] page.
-* **Informal:** My life as probably anyone else's is a continuous learning process.
+* __Formal:__ I finished my PhD in the [Novosibirsk State University][NSU] in 2001. My thesis was focused on thermodynamics and kinetics of nucleic acid interaction involving structured regions. See my publications at [NCBI collection][ncbi_collection] page.
+* __Informal:__ My life as probably anyone else's is a continuous learning process.
 
 **Reaserch Focus**: Proteomics, thorough data analysis, systems biology, neurodegenerative disorders and aging.
 
