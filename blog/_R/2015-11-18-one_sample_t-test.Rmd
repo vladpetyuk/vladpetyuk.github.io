@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: T-test 101
 subtitle: What is t-test and why it works
 categories: category1
@@ -7,6 +7,7 @@ body-class: categoryclass
 tags: [R, NHST]
 ---
 
+The source code of this post is right [here](https://github.com/vladpetyuk/vladpetyuk.github.io/blob/master/blog/_R/2015-11-18-one_sample_t-test.Rmd).
 
 T-test is one of the basic tests used in biology (and perhaps most 
 others scientific disciplines). However, it is not always interpreted correctly.
@@ -39,22 +40,21 @@ print(sample_t_stat)
 Hence, our doubt that the mean of the sample is actually not any different from
 the NULL value can be posed in a more quantitative way. That is:
 
-*What is the probability of achieving as big or more extreme t-statistic 
-for a sample with the mean equal to the NULL mean?*
+_**What is the probability of achieving as big or more extreme t-statistic 
+for a sample with the mean equal to the NULL mean?**_
 
-Let's calculate this probability directly by generating 1 million random 
-samples with mean equal to zero.
+Let's calculate this probability directly by generating a large number of random samples with mean equal to zero.
 
 As a first step we'll generate random samples with mean equal to the NULL mean.
 The actual value of the standard deviation at this point does not matter.
 The t-statistic is scaled by the standard deviation anyway.
 ```{r, simulation}
-N_simulations <- 1000000
+N_simulations <- 10000 #1000000
 sim_x <- replicate(N_simulations, rnorm(N,mu_null,sd=1))
 print(sim_x[,1:5])
 ```
 
-Calculating t-statistics for 1 million random samples.
+Calculating t-statistics for the generated random samples.
 ```{r, sim_t_stats}
 sim_x_mean_diff <- colMeans(sim_x) - mu_null
 sim_x_std_err <- apply(sim_x, 2, sd)/sqrt(N)
@@ -83,4 +83,4 @@ The actual t-test p-value is:
 print(t.test(sample_x)$p.value)
 ```
 
-Very close!
+The directly calculated probability of achieving the same or more extreme t-statistic and the p-value from the R's `t.test` are quite close!

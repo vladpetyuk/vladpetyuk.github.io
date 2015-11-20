@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: T-test 101
 subtitle: What is t-test and why it works
 categories: category1
@@ -7,6 +7,7 @@ body-class: categoryclass
 tags: [R, NHST]
 ---
 
+The source code of this post is right [here](https://github.com/vladpetyuk/vladpetyuk.github.io/blob/master/blog/_R/2015-11-18-one_sample_t-test.Rmd).
 
 T-test is one of the basic tests used in biology (and perhaps most 
 others scientific disciplines). However, it is not always interpreted correctly.
@@ -23,7 +24,7 @@ plot(sample_x, ylim=c(min(0,sample_x),max(0,sample_x)))
 abline(h=0, col='red')
 {% endhighlight %}
 
-![testing](/blog/figs/2015-11-18-one_sample_t-test/generate_sample-1.png) 
+![figure](/blog/figs/2015-11-18-one_sample_t-test/generate_sample-1.png) 
 
 {% highlight r %}
 mean(sample_x)
@@ -58,18 +59,17 @@ print(sample_t_stat)
 Hence, our doubt that the mean of the sample is actually not any different from
 the NULL value can be posed in a more quantitative way. That is:
 
-*What is the probability of achieving as big or more extreme t-statistic 
-for a sample with the mean equal to the NULL mean?*
+_**What is the probability of achieving as big or more extreme t-statistic 
+for a sample with the mean equal to the NULL mean?**_
 
-Let's calculate this probability directly by generating 1 million random 
-samples with mean equal to zero.
+Let's calculate this probability directly by generating a large number of random samples with mean equal to zero.
 
 As a first step we'll generate random samples with mean equal to the NULL mean.
 The actual value of the standard deviation at this point does not matter.
 The t-statistic is scaled by the standard deviation anyway.
 
 {% highlight r %}
-N_simulations <- 1000000
+N_simulations <- 10000 #1000000
 sim_x <- replicate(N_simulations, rnorm(N,mu_null,sd=1))
 print(sim_x[,1:5])
 {% endhighlight %}
@@ -85,7 +85,7 @@ print(sim_x[,1:5])
 ## [5,]  2.404653389 -0.2992151 -1.2375384 -0.05710677  0.04672617
 {% endhighlight %}
 
-Calculating t-statistics for 1 million random samples.
+Calculating t-statistics for the generated random samples.
 
 {% highlight r %}
 sim_x_mean_diff <- colMeans(sim_x) - mu_null
@@ -107,7 +107,7 @@ hist(sim_t_stats, 100)
 abline(v=c(-sample_t_stat,+sample_t_stat), col='red')
 {% endhighlight %}
 
-![testing](/blog/figs/2015-11-18-one_sample_t-test/two_tails-1.png) 
+![figure](/blog/figs/2015-11-18-one_sample_t-test/two_tails-1.png) 
 
 {% highlight r %}
 equal_or_more_extreme <- abs(sim_t_stats) >= abs(sample_t_stat)
@@ -118,7 +118,7 @@ print(calc_p_val)
 
 
 {% highlight text %}
-## [1] 0.072436
+## [1] 0.0694
 {% endhighlight %}
 
 The actual t-test p-value is:
@@ -133,4 +133,4 @@ print(t.test(sample_x)$p.value)
 ## [1] 0.07273875
 {% endhighlight %}
 
-Very close!
+The directly calculated probability of achieving the same or more extreme t-statistic and the p-value from the R's `t.test` are quite close!
