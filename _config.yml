@@ -56,6 +56,7 @@ footer-links-active:
   linkedin: true
   stackoverflow: false
 
+
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
 url-pretty: "vladpetyuk.github.io"  # eg. "deanattali.com/beautiful-jekyll"
@@ -66,7 +67,7 @@ url-pretty: "vladpetyuk.github.io"  # eg. "deanattali.com/beautiful-jekyll"
 #disqus: ""
 
 # Fill in your Google Analytics ID to track your website using GA
-#google_analytics: ""
+google_analytics: "UA-70478698-1"
 
 # --- Don't need to touch anything below here (but you can if you want) --- #
 
