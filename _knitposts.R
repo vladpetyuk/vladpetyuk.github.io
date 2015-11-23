@@ -21,8 +21,15 @@ KnitPost <- function(input, outfile, base.url="/") {
   knit(input, outfile, envir = parent.frame())
 }
 
-for (infile in list.files("blog/_R", pattern="*.Rmd", full.names=TRUE)) {
-  outfile = paste0("blog/_posts/", sub(".Rmd$", ".md", basename(infile)))
+# path to Rmd files
+# blog_path <- "blog/" # this works if you are in the "vladpetyuk.github.io"
+
+# I'll use absolute for the same convenience of running from any directory.
+# Perhaps I'll update this later to make sure it runs on multiple different comps.
+blog_path <- "/Users/d3m629/Google Drive/vladpetyuk.github.io/blog/" # absolute!!
+
+for (infile in list.files(paste0(blog_path,"_R/"), pattern="*.Rmd", full.names=TRUE)) {
+  outfile = paste0(blog_path,"_posts/", sub(".Rmd$", ".md", basename(infile)))
   
   # knit only if the input file is the last one modified
   if (!file.exists(outfile) |
