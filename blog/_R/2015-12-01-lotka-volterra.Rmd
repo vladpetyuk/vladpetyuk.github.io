@@ -1,0 +1,175 @@
+---
+layout: post
+title: Lotka-Volterra Model
+subtitle: forward and reverse ODE problem solving in R
+categories: category1
+body-class: categoryclass
+tags: [R, ODE, modeling]
+---
+
+#Intro
+[Lotka-Volterra](https://en.wikipedia.org/wiki/Lotka–Volterra_equations) is a small model that describes a number of biological processes. Perhaps the most know example is describing the populations of prey and predator specie. Although the model is (as low as 2 ODE) it possesses some interesting properties that makes it challending and interesting to model.
+
+#Model Specifications
+Let's consider a system of chemical reaction where a substance `A` converts to `B` through a couple of intermediate steps. The chemical reactions equations are as follows. Essentially it maps to a more common prey/predator as `X` is a prey and `Y` is a predator. The specie `A` would be something like grass or whatever the prey feeds on and `B` is a dead predator. I don't think there is an <u>actual</u> system of chemical reactions that is described by Lotka-Volterra. However, there are plenty of more complicated ones like [Belousov–Zhabotinsky reaction](https://en.wikipedia.org/wiki/Belousov–Zhabotinsky_reaction). Nonetheless, the relative simplicity of Lotka-Volterra makes it a great toy example.
+
+\\( A + X \\xrightarrow{k_1} 2 X \\)
+
+\\( X + Y \\xrightarrow{k_2} 2 Y \\)
+
+\\( Y \\xrightarrow{k_3} B \\)
+
+<left>
+<img src="../../blog/figs/2015-12-01-lotka-volterra/lv.png" alt="None" width="300">
+<br>
+<em>
+    Diagram of the chemical reactions. The figure made using 
+    <a href="http://sbw.sourceforge.net/">Systems Biology Workbench</a>.
+</em>
+</left>
+
+#ODEs
+The set of ordinary differential equations describing the system can be written as follows.
+
+\\( \\frac{dA}{dt} = -k_{1}AX \\)
+
+\\( \\frac{dX}{dt} = k\_{1}AX - k_{2}XY \\)
+
+\\( \\frac{dY}{dt} = k\_{2}XY - k_{3}Y \\)
+
+\\( \\frac{dB}{dt} = k_{3}Y \\)
+
+#Initial Value Problem Solving
+[deSolve](https://cran.r-project.org/web/packages/deSolve/index.html) library is a great collection of tools aimed mostly at solving of the initial value problem. The model is specified using a function. In our case it is `chemLV`. There are number of methods for integration. The default is *LSODA*.
+```{r, message=FALSE}
+library(deSolve)
+
+chemLV <- function(Time, State, Pars) {
+    with(as.list(c(State, Pars)), {
+        dA <- -k1*A*X
+        dX <- k1*A*X - k2*X*Y
+        dY <- k2*X*Y - k3*Y
+        dB <- k3*Y
+        return(list(c(dA,dX,dY,dB)))
+    })
+}
+
+
+pars  <- c(k1 = 0.003,
+           k2 = 0.03,
+           k3 = 0.001)
+
+yini  <- c(A = 1,
+           X = 1e-1,
+           Y = 1e-1,
+           B = 1e-6)
+
+times <- seq(0, 40000, by = 200)
+out <- ode(yini, times, chemLV, pars, method = "lsoda")
+```
+
+The output in essense is a matrix with additional attributes.
+```{r}
+class(out)
+head(out)
+```
+
+Note the oscillating behaviour of the system. The parameters `pars` and initial concentrations `yini` were set on purpose to produce this beautiful property of this simple system. The oscillations are not a property that is always present. It really depends on the settings. Note, in this chemical reaction, the amplitude of the oscillations is decreasing in time. In case of constant supply of `A` (like grass for a prey specie) the oscillations will be stable.
+```{r}
+plot(out)
+```
+
+The phase diagram is another way of showing how sytem evolves over time. Note, that at equilibrium, `Y` goes down to 0, while `X` converges somwhere at $$10^{-1.5}$$ = (`r round(10^-1.5,2)`). Perhaps the latter a bit more apparent from the phase diagram below.
+```{r, message=FALSE, warning=FALSE, fig.width=7.5, fig.height=6}
+library(ggplot2)
+library(grid) # for arrow
+library(vp.misc) # for hot2.colors
+
+ggplot(data=data.frame(out), aes(x=X, y=Y, color=time)) +
+    geom_path(size=1, arrow = arrow(length = unit(7, "points"))) + 
+    scale_x_log10() + scale_y_log10() +
+    scale_colour_gradientn(colours=hot2.colors(nrow(out)))
+```
+
+
+#Fitting the Model to the Data
+
+##Settings \#1. All parameters are free.
+Let's pretend we don't know neither the kinetic parameters nor the initial concentrations of the reagents. Can we infer them from the data? Note, if we use the entire `out` matrix, then it is trivial to find out the initial concentrations. However, such luxury is not always available. For the inverse problem solving we'll take advantage of the [FME](https://cran.r-project.org/web/packages/FME/index.html) package.
+```{r}
+library(FME)
+```
+
+Let's define the objective function to be minimized. The core of it is the initial value problem solver `ode`. The output can be presented in the form of error residuals (actual - simulated data). Occasionally the solver will be failing. In this case we return `NaN` as the error residuals. As an alternative that is worth considering is return of error residuals calculated based on incomplete data (commented in the code). Typically such incomplete ODE solutions have very huge errors. Thus there is no chance that the optimization will converge on those values.
+```{r}
+err_res_1 <- function(args){
+    out.i <- ode(y=args[c('A','X','Y','B')],
+                 times=out[,"time"],
+                 func=chemLV,
+                 parms=args[c('k1','k2','k3')],
+                 method="lsoda")
+    if(nrow(out.i) < nrow(out))
+        return(as.numeric(out[,-1]) - NaN)
+    # res <- (out[1:nrow(out.i),] - out.i)[,-1]
+    res <- (out - out.i)[,-1]
+    return(as.numeric(res))
+}
+```
+
+Let's pretend we don't know the parameters and try to infer them from the data. To make it easier on optimization we will supply correct values for the initial concentrations. Note, we will constrain all parameters with zeros as low values as negative concentrations and kinetic constants do not make sense.
+```{r, message=FALSE, warning=FALSE}
+pars.guess  <- c(k1 = 0.1, 
+                 k2 = 0.1, 
+                 k3 = 0.1)
+
+fit <- modFit(f = err_res_1,
+              p = c(yini, pars.guess),
+              lower = rep(0,7),
+              method = "Marq")
+summary(fit, cov=FALSE)
+```
+
+Despite, the fact that some of the parameter values are claimed as statistically significant, the optimization failed. The inferred parameters are nowhere near the original values. This is not too surprising as non-linear model fitting is a non-trivial task in general. Especially this is the case for tricky models such as Lotka-Volterra that has many local minima. 
+
+Although inferred parameter values are not exactly the same that we put into the simulation, let's check if these parameters reproproduce the data. The data itself, also, not even close as shown below.
+```{r}
+out2 <- ode(fit$par[c('A','X','Y','B')], 
+           times, chemLV, 
+           fit$par[c('k1','k2','k3')], method = "lsoda")
+plot(out2)
+```
+
+##Settings \#2. Mixed free/fixed parameters.
+Let's consider a little bit easier situation. Say we <u>know</u> the initial concentrations. Typically biomolecule concentrations is somewhat realistically to directly measure with bioanalytical approaches. Thus we will consider only three kinetic constants as free parameters for optimization. Note, the initial values remain exactly the same between those two optimizations.
+```{r}
+err_res_2 <- function(args){
+    out.i <- ode(y=yini,
+                 times=out[,"time"],
+                 func=chemLV,
+                 parms=args[c('k1','k2','k3')],
+                 method="lsoda")
+    if(nrow(out.i) < nrow(out))
+        return(as.numeric(out[,-1]) - NaN)
+    res <- (out - out.i)[,-1]
+    return(as.numeric(res))
+}
+
+pars.guess  <- c(k1 = 0.1, 
+                 k2 = 0.1, 
+                 k3 = 0.1)
+
+fit <- modFit(f = err_res_2,
+              p = pars.guess,
+              lower = rep(0,3), 
+              method = "Marq")
+summary(fit, cov=FALSE)
+```
+
+Success! The fitted values for the three kinetic constants are correct. Note, 
+the initial values for the first and second optimizations are the same. 
+The algortithm and settings are the same. All we did is fixed the 
+initial concentrations and thus did not allow to slip out of the 
+path to the actual minimum. Perhaps it is possible to set-up an optimization 
+routine that we do correct fit even in case of seven free parameters. 
+But it wouldn't be trivial.
+
