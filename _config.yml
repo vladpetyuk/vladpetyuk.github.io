@@ -14,7 +14,7 @@ baseurl: ""
 # Of course don't forget to change the username and projectname to YOUR username and project
 
 # Name of website
-title: Vlad Petyuk
+title: Home #Vlad Petyuk
 
 # Short description of your site
 description: Vlad Petyuk's personal web page
@@ -27,7 +27,7 @@ avatar: "/img/him.png"
 
 # List of links in the navigation bar
 navbar-links:
-  Home: ""
+  #Home: ""
   Posts: "posts.html"
   Research: "research.html"
   About Me: "aboutme.html"
