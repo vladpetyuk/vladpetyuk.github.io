@@ -149,26 +149,30 @@ err_res_1 <- function(args){
 }
 {% endhighlight %}
 
-Let's pretend we don't know the parameters and try to infer them from the data. To make it easier on optimization we will supply correct values for the initial concentrations. Note, we will constrain all parameters with zeros as low values as negative concentrations and kinetic constants do not make sense.
+Let's pretend we don't know the parameters and try to infer them from the data. To make it easier on optimization we will supply correct values `yini` for the initial concentrations. Note, we will constrain all parameters with zeros as low values as negative concentrations and kinetic constants do not make sense.
 
 {% highlight r %}
 pars.guess  <- c(k1 = 0.1, 
                  k2 = 0.1, 
                  k3 = 0.1)
+{% endhighlight %}
 
+Checking how different the model looks like with the guessed initial values. Since the guess on kinetic constants was not guided in any way, the model behaviour is strikingly different from the original. In real world scenario, the initial parameter values should be either based on prior knowledge or set in such a way that the model recapitulates at least some of the key features of the original data.
+
+{% highlight r %}
+out.guess <- ode(yini, times, chemLV, pars.guess, method = "lsoda")
+plot(out.guess)
+{% endhighlight %}
+
+![figure](/blog/figs/2015-12-01-lotka-volterra/unnamed-chunk-8-1.png) 
+
+Launching the fitting of the paramters to the data of the original model.
+
+{% highlight r %}
 fit <- modFit(f = err_res_1,
               p = c(yini, pars.guess),
               lower = rep(0,7),
               method = "Marq")
-{% endhighlight %}
-
-
-There are plenty of the warning messages like this, indicating on the forward problem solving troubles.
-{% highlight text %}
-## DLSODA-  Warning..Internal T (=R1) and H (=R2) are
-##       such that in the machine, T + H = T on the next step  
-##      (H = step size). Solver will continue anyway.
-## In above message, R1 = 12903.8, R2 = 8.29675e-13
 {% endhighlight %}
 
 
@@ -207,7 +211,7 @@ out2 <- ode(fit$par[c('A','X','Y','B')],
 plot(out2)
 {% endhighlight %}
 
-![figure](/blog/figs/2015-12-01-lotka-volterra/unnamed-chunk-8-1.png) 
+![figure](/blog/figs/2015-12-01-lotka-volterra/unnamed-chunk-10-1.png) 
 
 ##Settings \#2. Mixed free/fixed parameters.
 Let's consider a little bit easier situation. Say we <u>know</u> the initial concentrations. Typically biomolecule concentrations is somewhat realistically to directly measure with bioanalytical approaches. Thus we will consider only three kinetic constants as free parameters for optimization. Note, the initial values remain exactly the same between those two optimizations.
@@ -256,6 +260,5 @@ the initial values for the first and second optimizations are the same.
 The algortithm and settings are the same. All we did is fixed the 
 initial concentrations and thus did not allow to slip out of the 
 path to the actual minimum. Perhaps it is possible to set-up an optimization 
-routine that we do correct fit even in case of seven free parameters. 
-But it wouldn't be trivial.
+routine that does correct fit even in the case of seven free parameters, but it won't be trivial.
 
