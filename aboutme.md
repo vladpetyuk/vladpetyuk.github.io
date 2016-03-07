@@ -6,7 +6,7 @@ subtitle: to be evolved
 
 _**THE PAGE IS UNDER CONSTRUCTION**_
 
-##Education
+## Education
 * __1992-1997:__ specialist (BS/MS) in chemistry from the [Novosibirsk State University][NSU]
 * __1997-2001:__ PhD in biochemistry from the [Novosibirsk State University][NSU]. The actual work has been performed at the [Institute of Chemical Biology and Fundamental Medicine](ICBFM)
 * __2008-2011:__ equivalent to BS minor in computer science from [North Carolina State University][NCSU]
