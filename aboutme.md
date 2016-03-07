@@ -1,5 +1,5 @@
 ---
-layout: page2
+layout: page
 title: about me
 subtitle: to be evolved
 ---
@@ -17,11 +17,11 @@ _**THE PAGE IS UNDER CONSTRUCTION**_
 * __Informal:__ My life as probably anyone else's is a continuous learning process.
 -->
 
-##Post-Doc Training
+## Post-Doc Training
 * __2001-2004__ protein engineering of site-specific recombinase Cre in Dr. Brian Sauer lab at [OMRF][OMRF] and [Stowers Institute for Medical Research][SIMR]
 * __2004-2006__ LC-MS proteomics in [Dr. Richard Smith lab][SmithLab] at [Pacific Northwerst National Laboratory](www.pnnl.gov)
 
-##Work 
+## Work 
 Since 2006 I have been working as a senior scientist at the [Pacific Northwest National Laboratory][PNNL]. See my publications at [NCBI collection][ncbi_collection] page.
 
 
