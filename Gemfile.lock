@@ -124,6 +124,7 @@ PLATFORMS
 DEPENDENCIES
   execjs
   github-pages
+  jekyll-paginate
 
 BUNDLED WITH
    1.10.6

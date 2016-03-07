@@ -76,10 +76,10 @@ timezone: "America/Vancouver"
 markdown: kramdown
 kramdown:
   input: GFM
-  syntax_highlighter: rouge
+  # syntax_highlighter: rouge
 # markdown: redcarpet
 #encoding: utf-8
-# highlighter: rouge
+highlighter: rouge
 permalink: /:year-:month-:day-:title
 gems: [jekyll-paginate]
 paginate: 5
