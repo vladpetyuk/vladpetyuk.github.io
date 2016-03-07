@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: page2
 title: about me
 subtitle: to be evolved
 ---
