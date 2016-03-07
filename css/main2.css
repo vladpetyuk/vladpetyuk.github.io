@@ -326,6 +326,7 @@ footer .theme-by {
   -moz-background-size: contain;
   background-size: contain;
   -o-background-size: contain;
+  /*background-color: blue;*/
   -webkit-transition: opacity 1s linear;
   -moz-transition: opacity 1s linear;
   transition: opacity 1s linear;
