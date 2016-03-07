@@ -7,10 +7,10 @@ body-class: categoryclass
 tags: [R, ODE, modeling]
 ---
 
-#Intro
+# Intro
 [Lotka-Volterra](https://en.wikipedia.org/wiki/Lotka–Volterra_equations) is a small model that describes a number of biological processes. Perhaps the most know example is describing the populations of prey and predator specie. Although the model is (as low as 2 ODE) it possesses some interesting properties that makes it challending and interesting to model.
 
-#Model Specifications
+# Model Specifications
 Let's consider a system of chemical reaction where a substance `A` converts to `B` through a couple of intermediate steps. The chemical reactions equations are as follows. Essentially it maps to a more common prey/predator as `X` is a prey and `Y` is a predator. The specie `A` would be something like grass or whatever the prey feeds on and `B` is a dead predator. I don't think there is an <u>actual</u> system of chemical reactions that is described by Lotka-Volterra. However, there are plenty of more complicated ones like [Belousov–Zhabotinsky reaction](https://en.wikipedia.org/wiki/Belousov–Zhabotinsky_reaction). Nonetheless, the relative simplicity of Lotka-Volterra makes it a great toy example.
 
 \\( A + X \\xrightarrow{k_1} 2 X \\)
@@ -28,7 +28,7 @@ Let's consider a system of chemical reaction where a substance `A` converts to `
 </em>
 </left>
 
-#ODEs
+# ODEs
 The set of ordinary differential equations describing the system can be written as follows.
 
 \\( \\frac{dA}{dt} = -k_{1}AX \\)
@@ -39,7 +39,7 @@ The set of ordinary differential equations describing the system can be written 
 
 \\( \\frac{dB}{dt} = k_{3}Y \\)
 
-#Initial Value Problem Solving
+# Initial Value Problem Solving
 [deSolve](https://cran.r-project.org/web/packages/deSolve/index.html) library is a great collection of tools aimed mostly at solving of the initial value problem. The model is specified using a function. In our case it is `chemLV`. There are number of methods for integration. The default is *LSODA*.
 
 {% highlight r %}
@@ -123,9 +123,9 @@ ggplot(data=data.frame(out), aes(x=X, y=Y, color=time)) +
 ![figure](/blog/figs/2015-12-01-lotka-volterra/unnamed-chunk-4-1.png) 
 
 
-#Fitting the Model to the Data
+# Fitting the Model to the Data
 
-##Settings \#1. All parameters are free.
+## Settings \#1. All parameters are free.
 Let's pretend we don't know neither the kinetic parameters nor the initial concentrations of the reagents. Can we infer them from the data? Note, if we use the entire `out` matrix, then it is trivial to find out the initial concentrations. However, such luxury is not always available. For the inverse problem solving we'll take advantage of the [FME](https://cran.r-project.org/web/packages/FME/index.html) package.
 
 {% highlight r %}
@@ -213,7 +213,7 @@ plot(out2)
 
 ![figure](/blog/figs/2015-12-01-lotka-volterra/unnamed-chunk-10-1.png) 
 
-##Settings \#2. Mixed free/fixed parameters.
+## Settings \#2. Mixed free/fixed parameters.
 Let's consider a little bit easier situation. Say we <u>know</u> the initial concentrations. Typically biomolecule concentrations is somewhat realistically to directly measure with bioanalytical approaches. Thus we will consider only three kinetic constants as free parameters for optimization. Note, the initial values remain exactly the same between those two optimizations.
 
 {% highlight r %}
