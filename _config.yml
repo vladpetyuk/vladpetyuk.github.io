@@ -74,9 +74,12 @@ google_analytics: "UA-70478698-1"
 # Output options (more information on Jekyll's site)
 timezone: "America/Vancouver"
 markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 # markdown: redcarpet
 #encoding: utf-8
-highlighter: rouge
+# highlighter: rouge
 permalink: /:year-:month-:day-:title
 gems: [jekyll-paginate]
 paginate: 5
