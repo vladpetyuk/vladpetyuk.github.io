@@ -22,7 +22,7 @@ _**THE PAGE IS UNDER CONSTRUCTION**_
 * __2004-2006__ LC-MS proteomics in [Dr. Richard Smith lab][SmithLab] at [Pacific Northwerst National Laboratory](www.pnnl.gov)
 
 ## Work 
-Since 2006 I have been working as a senior scientist at the [Pacific Northwest National Laboratory][PNNL]. See my publications at [NCBI collection][ncbi_collection] page.
+Since 2006 I have been working as a senior scientist at the [Pacific Northwest National Laboratory][PNNL]. See my publications at [NCBI collection][ncbi_collection] or [Google Scholar][google_scholar] pages.
 
 
 <!--
@@ -50,3 +50,7 @@ Proteomics, thorough data analysis, systems biology, neurodegenerative disorders
 [OMRF]: https://omrf.org
 [SIMR]: http://www.stowers.org
 [SmithLab]: http://www.pnnl.gov/science/staff/staff_info.asp?staff_num=5832
+[google_scholar]: https://scholar.google.com/citations?user=EdRhtt0AAAAJ&hl=en
+
+
+
