@@ -7,6 +7,7 @@ body-class: categoryclass
 tags: [R, ODE, modeling]
 ---
 
+The source code of this post is right [here](https://github.com/vladpetyuk/vladpetyuk.github.io/blob/master/blog/_R/2016-07-19-min_bistable_switch.Rmd).
 
 # Intro
 [Bistability switch](https://en.wikipedia.org/wiki/Bistability) that is described here is a chemical reaction system that can jump from one steady state solution
