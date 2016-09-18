@@ -1,0 +1,184 @@
+---
+layout: post
+title: Simulating Random Chemical Systems
+subtitle: random first order chemical reaction or linear dynamic systems
+categories: category1
+body-class: categoryclass
+tags: [R, ODE, modeling]
+---
+
+<!-- <style type="text/css"> -->
+<!-- .table { -->
+<!--     width: 60%; -->
+<!-- } -->
+<!-- </style> -->
+
+* TOC
+{:toc}
+
+
+# Intro
+[Linear dynamic systems](https://en.wikipedia.org/wiki/Linear_dynamical_system) can describe a number of phenomena including system of first-order chemical reactions. An equation describing such systems is as follows:
+
+\\( \\frac{d\mathbf{x}}{dt} = \mathbf{A}\mathbf{x} \\)
+
+Where $$\mathbf{x}$$ is the vector of reactant concentrations, $$\mathbf{A}$$ is the coefficient
+matrix corresponding to chemical rate constants.
+
+# Simple Case: X1 -> X2 -> X3
+
+## Encoding The Reactions As a Graph With `igraph`
+For the sake of simplicity we'll set all the chemical reaction rate constants to 1. The ODEs corresponding to this simple chain of chemical reactions are:
+
+\\( \\frac{dX1}{dt} = 1 \cdot X1 + 0 \cdot X2 + 0 \cdot X3 \\)
+
+\\( \\frac{dX2}{dt} = 1 \cdot X1 - 1 \cdot X2 + 0 \cdot X3 \\)
+
+\\( \\frac{dX3}{dt} = 0 \cdot X1 + 1 \cdot X2 + 0 \cdot X3 \\)
+
+Firts, let's encode the reaction graph.
+```{r reac_graph_1, message=FALSE, fig.height=3, fig.width=6}
+library(igraph)
+g <- graph_from_literal( X1 -+ X2 -+ X3 )
+E(g)$weight <- rep(1, ecount(g)) # all kinetic contants are 1
+plot(g, layout=cbind(c(0,1,2),c(0,0,0)), margin=c(0,0,-2,0))
+```
+
+## Simulation With `deSolve`
+
+Extracting matrix with ODE coefficients from the weighted directed graph.
+```{r coef_matrix_1}
+am <- as_adjacency_matrix(g, attr='weight', sparse = FALSE) # influxes
+A <- t(am)
+diag(A) <- -graph.strength(g, mode = "out") # outfluxes
+knitr::kable(A)
+```
+
+The core of the simulation.
+```{r, message=FALSE}
+library(deSolve)
+N <- vcount(g)
+yini <- c(1,rep(0,vcount(g)-1)) # first is 1 the rest are 0
+names(yini) <- names(V(g))
+times <- seq(0, 10, by = 0.01)
+deriv_steps <- function(Time, State, Pars){
+    list(drop(Pars %*% State))
+}
+out <- lsoda(yini, times, deriv_steps, A)
+```
+
+## Plotting Simulation Results
+```{r sim_res_1, message=FALSE, warning=FALSE, fig.height=3, fig.width=5}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+as.data.frame(out) %>%
+    gather(specie,value,-time) %>%
+    ggplot() +
+        aes(x=time, y=value, color=specie) +
+        geom_line()
+```
+
+
+
+# More Complicated Example
+
+## Generating Random Reaction Graph
+
+```{r}
+N <- 10 # number of reactants
+# Seed controlling random graph 
+set.seed(2016) # 1, 2000, 2016. 
+g <- erdos.renyi.game(N, 0.2, directed = TRUE)
+V(g)$label <- paste('X', as_ids(V(g)), sep='')
+```
+
+Now we randomize the kinetic rate constants. Note we set them to follow
+the log-normal distribution. That is all of them will be positive.
+In the coefficient matrix, the edge weights correspond to kinetic constants
+of the edges point to a given node. Therefore they will reflect the influx and
+thus can be only positive. For negative kinetic constant we'll have to invert
+the directionality of the edge.
+```{r}
+# Seed controlling random number generation for kinetic constants.
+set.seed(34660) # 5, 1, 34660. 
+E(g)$weight <- rlnorm(ecount(g))
+```
+
+Initial concentrations of reactants can be distributed across the species 
+anyway we want. Here we'll place all the initial concentration into the 
+node with the mose outflux. The code below defines which one is the 
+"source" node for plotting purposes.
+```{r}
+V(g)$source <- rep(FALSE,vcount(g))
+V(g)$source[which.max(graph.strength(g, mode = "out"))] <- TRUE
+```
+
+Plotting reaction graph with edge weights reflecting the fluxes.
+```{r reac_graph_2, fig.width=8, fig.height=8}
+edges_to_curve <- apply(as_edgelist(g), 1, paste, collapse ='_') %in%
+    apply(as_edgelist(g)[,c(2,1)], 1, paste, collapse ='_')
+set.seed(0) # controlling layout
+plot(g,
+     vertex.label.cex = 0.7,
+     # margin = c(-0.1,-0.1,-0.1,-0.1),
+     edge.width=E(g)$weight, edge.curved = edges_to_curve,
+     vertex.color=c('gold','orange')[as.numeric(V(g)$source) + 1])
+```
+
+Alternative plotting with `ggraph`
+```{r reac_graph_2a, message=FALSE, warning=FALSE, fig.width=8, fig.height=8}
+library(ggraph)
+set.seed(5)
+ggraph(g, 'igraph', algorithm = 'fr') +
+    geom_edge_fan(aes(width=weight, alpha=..index..)) +
+    scale_edge_alpha('flows into', guide = 'edge_direction') +
+    geom_node_point(size=10, aes(color=source)) +
+    geom_node_text(aes(label=label), color=scales::muted('green'), size=4.5) +
+    ggforce::theme_no_axes(base.theme = theme_minimal())
+```
+
+
+## Simulation
+
+Extracting the coefficient matrix.
+```{r}
+am <- as_adjacency_matrix(g, attr='weight', sparse = FALSE)
+A <- t(am)
+diag(A) <- -graph.strength(g, mode = "out")
+colnames(A) <- rownames(A) <- V(g)$label
+knitr::kable(round(A,2))
+```
+
+Setting up initial concentrations, defining time interval and finally simulation.
+```{r}
+yini <- rep(0,vcount(g))
+names(yini) <- V(g)$label
+yini[V(g)$source] <- 1
+times <- seq(0, 10, by = 0.1)
+out <- lsoda(yini, times, deriv_steps, A)
+```
+
+## Plotting The Simulation Results
+
+Visualizing the results of the simulation.
+```{r sim_res_2a, fig.width=5, fig.height=4}
+as.data.frame(out) %>%
+    gather(specie,value,-time) %>%
+    mutate(specie = ordered(specie, levels=V(g)$label)) %>%
+    ggplot() +
+        aes(x=time, y=value, color=specie) +
+        geom_line(size=1)
+```
+
+Visualizing trajectory of each specie individually.
+```{r sim_res_2b, fig.width=10, fig.height=3}
+as.data.frame(out) %>%
+    gather(specie,value,-time) %>%
+    mutate(specie = ordered(specie, levels=V(g)$label)) %>%
+    ggplot() +
+        aes(x=time, y=value, color=specie) +
+        geom_line(size=1)  +
+        facet_wrap(~ specie, scale = 'free_y', ncol = 5)
+```
+
