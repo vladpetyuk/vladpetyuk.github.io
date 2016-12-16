@@ -7,7 +7,6 @@ body-class: categoryclass
 tags: [R, ODE, modeling]
 ---
 
-The source code of this post is right [here](https://github.com/vladpetyuk/vladpetyuk.github.io/blob/master/blog/_R/2016-07-19-min_bistable_switch.Rmd).
 
 # Intro
 [Bistability switch](https://en.wikipedia.org/wiki/Bistability) that is described here is a chemical reaction system that can jump from one steady state solution
@@ -81,7 +80,7 @@ system.time(
                      {
                         yini['X'] <- a1
                         pars['S'] <- a2
-                        runsteady(yini, times=c(0,Inf), minBiStab, pars)$y['X']
+                        runsteady(yini, time=c(0,Inf), minBiStab, pars)$y['X']
                      }, X_ini, S, mc.cores = 8)))
 {% endhighlight %}
 
@@ -89,7 +88,7 @@ system.time(
 
 {% highlight text %}
 ##    user  system elapsed 
-## 350.611   2.952  54.792
+## 296.981   1.848  54.586
 {% endhighlight %}
 
 

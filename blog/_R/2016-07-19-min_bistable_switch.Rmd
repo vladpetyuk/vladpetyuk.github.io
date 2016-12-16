@@ -77,7 +77,7 @@ system.time(
                      {
                         yini['X'] <- a1
                         pars['S'] <- a2
-                        runsteady(yini, times=c(0,Inf), minBiStab, pars)$y['X']
+                        runsteady(yini, time=c(0,Inf), minBiStab, pars)$y['X']
                      }, X_ini, S, mc.cores = 8)))
 
 # plot the results
