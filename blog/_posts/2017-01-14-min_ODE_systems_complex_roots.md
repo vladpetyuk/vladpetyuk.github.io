@@ -31,7 +31,7 @@ universities as the textbook for the corresponding course. The solution for the
 example itself is not covered with sufficient details. It took some effort to
 trace why one equation or statement follows from another. In a meanwhile I
 found this [video](https://www.youtube.com/watch?v=TRVS5Wo9LoM) from MIT
-course on \emph{Linear Systems} rather helpful to connect some dots.
+course on *Linear Systems* rather helpful to connect some dots.
 
 First we'll solve the initial value problem (aka simulation) using `R` 
 utilities for numerical integration. Then we'll walk through derivation of the
@@ -43,8 +43,8 @@ result in the same answer.
 
 # Model Specification
 
-<!-- \\( \\frac{dx_1}{dt} = x_1 - x_2 \\) -->
-$$ \frac{dx_1}{dt} = x_1 - x_2 $$
+\\( \\frac{dx_1}{dt} = x_1 - x_2 \\)
+<!-- $$ \frac{dx_1}{dt} = x_1 - x_2 $$ -->
 
 <!-- \\( \\frac{dx_2}{dt} = x_1 + x_2 \\) -->
 $$ \frac{dx_2}{dt} = x_1 + x_2 $$
@@ -154,10 +154,8 @@ $$
 Note, the equations are not independent. The second one can be derived from the
 first one by multiplying by $i$. This is always the case when finding 
 eigenvectors. There is always a family of eigenvectors that differ from each
-other by a constant. We can arbitrary set
-$$v_{11} = 1$$
-Thus
-$$v_{12} = -i$$
+other by a constant. We can arbitrary set $$v_{11} = 1$$.
+Thus $$v_{12} = -i$$.
 
 Therefore the solutions can be written in the form
 $$ 
