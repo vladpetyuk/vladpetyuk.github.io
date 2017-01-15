@@ -94,7 +94,7 @@ out.num <- ode(v_ini, times, deriv, parms = NULL, method = "lsoda")
 \\(
     \frac{d\vec{x}}{dt} =
     \left( \begin{array}{r}
-    1 & -1 \\
+    1 & -1 \\\\
     1 & 1
     \end{array} \right) 
     \times \vec{x}
