@@ -46,10 +46,12 @@ result in the same answer.
 \\( \\frac{dx_1}{dt} = x_1 - x_2 \\)
 <!-- $$ \frac{dx_1}{dt} = x_1 - x_2 $$ -->
 
+\\[ \\frac{dx_1}{dt} = x_1 - x_2 \\]
+
 <!-- \\( \\frac{dx_2}{dt} = x_1 + x_2 \\) -->
 $$ \frac{dx_2}{dt} = x_1 + x_2 $$
 
-Let's set the initial conditions to \\(x_1 = 1\\) and $x_2 = 1$.
+Let's set the initial conditions to $$x_1 = 1$$ and $$x_2 = 1$$.
 
 
 
