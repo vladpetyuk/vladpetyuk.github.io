@@ -43,8 +43,8 @@ result in the same answer.
 
 # Model Specification
 
-<!-- \\( \\frac{dx_1}{dt} = x_1 - x_2 \\) -->
-$$ \frac{dx_1}{dt} = x_1 - x_2 $$
+\\( \\frac{dx_1}{dt} = x_1 - x_2 \\)
+<!-- $$ \frac{dx_1}{dt} = x_1 - x_2 $$ -->
 
 <!-- \\( \\frac{dx_2}{dt} = x_1 + x_2 \\) -->
 $$ \frac{dx_2}{dt} = x_1 + x_2 $$
@@ -153,10 +153,8 @@ $$
 Note, the equations are not independent. The second one can be derived from the
 first one by multiplying by $i$. This is always the case when finding 
 eigenvectors. There is always a family of eigenvectors that differ from each
-other by a constant. We can arbitrary set
-$$v_{11} = 1$$
-Thus
-$$v_{12} = -i$$
+other by a constant. We can arbitrary set $$v_{11} = 1$$.
+Thus $$v_{12} = -i$$.
 
 Therefore the solutions can be written in the form
 $$ 
