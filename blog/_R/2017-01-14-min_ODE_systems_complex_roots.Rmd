@@ -91,26 +91,26 @@ out.num <- ode(v_ini, times, deriv, parms = NULL, method = "lsoda")
 
 # Analytical Solution
 
-\\[
+$$
     \frac{d\vec{x}}{dt} =
     \left( \begin{array}{r}
     1 & -1 \\\\
     1 & 1
     \end{array} \right) 
     \times \vec{x}
-\\]
+$$
 
 
 ## Eigenvalues
 
-\\[
+$$
     \det
     \left( \begin{array}{r}
     1 - \lambda & -1 \\
     1 & 1 - \lambda
     \end{array} \right)
     = 0
-\\]
+$$
 
 \\[ 
     (1 - \lambda)^2 + 1 = 0 
