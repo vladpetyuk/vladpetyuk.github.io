@@ -112,30 +112,30 @@ $$
     = 0
 $$
 
-\\[ 
+$$ 
     (1 - \lambda)^2 + 1 = 0 
-\\]
+$$
 
-\\[ 
+$$ 
     \lambda^2 - 2 \lambda + 2 = 0 
-\\]
+$$
 
 Accodring to formula for finding roots of quadratic equation:
 
-\\[ 
+$$
     \lambda_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} 
-\\]
+$$
 
 The roots are:
 
-\\[
+$$
     \lambda_{1,2} =
     \frac{-(-2) \pm \sqrt{(-2)^2 - 4 \times 1 \times 2}}{2 \times 1}
-\\]
+$$
 
-\\[ 
+$$
     \lambda_{1,2} = 1 \pm i 
-\\]
+$$
 
 Note, that the roots are complex conjugates.
 
@@ -143,7 +143,7 @@ Note, that the roots are complex conjugates.
 
 Eigenvector for the first root is as follows:
 
-\\[
+$$
     \left( \begin{array}{r}
     1 - \lambda_1 & -1 \\
     1 & 1 - \lambda_1
@@ -156,21 +156,21 @@ Eigenvector for the first root is as follows:
     0 \\
     0 \\
     \end{array} \right)
-\\]
+$$
 
-\\[
+$$
     \begin{cases}
     (1 - (1 + i)) \times v_{11} - v_{12} = 0 \\
     v_{11} + (1 - (1 + i)) \times v_{12} = 0
     \end{cases}
-\\]
+$$
 
-\\[
+$$
     \begin{cases}
     -i \times v_{11} - v_{12} = 0 \\
     v_{11} - i \times v_{12} = 0
     \end{cases}
-\\]
+$$
 
 Note, the equations are not independent. The second one can be derived from the
 first one by multiplying by \\(i\\). This is always the case when finding 
@@ -180,7 +180,7 @@ Thus \\(v_{12} = -i\\).
 
 Therefore the solutions can be written in the form
 
-\\[ 
+$$
     \vec{x}(t) = 
     \left( \begin{array}{r}
     1 \\
@@ -188,33 +188,33 @@ Therefore the solutions can be written in the form
     \end{array} \right)
     \times
     e^{(1 + i) \times t}
-\\]
+$$
 
 Given the Euler's formula
 
-\\[
+$$
     e^{it} = \cos t + i \sin t
-\\]
+$$
 
-\\[
+$$
     \vec{x}(t) = 
     \left( \begin{array}{r}
     1 \\
     -i
     \end{array} \right)
     \times e^t \times (\cos t + i \sin t)
-\\]
+$$
 
-\\[
+$$
     \vec{x}(t) = 
     e^t \times
     \left( \begin{array}{r}
     \cos t + i \sin t \\
     -i \cos t + \sin t
     \end{array} \right)
-\\]
+$$
 
-\\[
+$$
     \vec{x}(t) = 
     e^t \times
     \left(
@@ -229,13 +229,13 @@ Given the Euler's formula
         -\cos t
         \end{array} \right)
     \right)
-\\]
+$$
 
 General real-valued solutions can be written as combinations of real and
 imaginary components. There is no need to look for eigenvectors for the 
 second eigenvalue.
 
-\\[
+$$
     \vec{x}(t) = 
     e^t \times
     \left(
@@ -251,7 +251,7 @@ second eigenvalue.
         -\cos t
         \end{array} \right)
     \right)
-\\]
+$$
 
 Constants \\(C_1\\) and \\(C_2\\) defined from the initial conditions.
 
@@ -259,7 +259,7 @@ Constants \\(C_1\\) and \\(C_2\\) defined from the initial conditions.
 Substituting \\(t = 0\\), \\(x_1 = 1\\) and \\(x_2 = 1\\) in the general solution 
 equation above.
 
-\\[
+$$
     \left( \begin{array}{r}
     1 \\
     1
@@ -279,22 +279,22 @@ equation above.
         -1
         \end{array} \right)
     \right)
-\\]
+$$
 
 Transforming into system of linear equations:
 
-\\[
+$$
     \begin{cases}
     1 = 1 \times C_1 + 0 \times C_2 \\
     1 = 0 \times C_1 - 1 \times C_2
     \end{cases}
-\\]
+$$
 
 Hence \\(C_1 = 1\\) and \\(C_2 = -1\\).
 
 Thus the exact solution is:
 
-\\[
+$$
     \vec{x}(t) = 
     \left( \begin{array}{r}
     x_1 \\
@@ -312,7 +312,7 @@ Thus the exact solution is:
         -\cos t
         \end{array} \right)
     \right)
-\\]
+$$
 
 
 ## Computing values for analytical solution
