@@ -12,6 +12,8 @@ tags:
 body-class: categoryclass
 ---
 
+The source for this post is available [here](https://github.com/vladpetyuk/vladpetyuk.github.io/blob/master/blog/_R/2017-01-14-min_ODE_systems_complex_roots.Rmd)
+
 * TOC
 {:toc}
 
