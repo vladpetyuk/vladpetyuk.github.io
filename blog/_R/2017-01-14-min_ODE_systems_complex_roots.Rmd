@@ -356,3 +356,25 @@ ggplot(data=out, aes(x=x1, y=x2, color=time)) +
 Evidently, they are the same. Math did its magic and numerical integration
 proved to work well in this case.
 
+# Solving it in Mathematica
+```mathematica
+In[1]:= sol = DSolve[{x1'[t]==x1[t]-x2[t], 
+                      x2'[t]==x1[t]+x2[t], 
+                      x1[0]==1, 
+                      x2[0]==1},
+                     {x1[t], x2[t]}, t]
+```
+```mathematica
+Out[1]= {x1[t]->E^t (Cos[t]-Sin[t]), x2[t]->E^t (Cos[t]+Sin[t])}
+```
+```mathematica
+In[2]:= ParametricPlot[{x1[t],x2[t]}/.sol,
+                       {t,0,10},
+                       PlotRange->All, 
+                       AspectRatio->1, 
+                       PlotTheme->"Scientific", 
+                       FrameLabel->{"x1","x2"},
+                       ColorFunctionScaling->True,
+                       ColorFunction->Function[{x,y,t},ColorData["BlueGreenYellow"][t]]]
+```
+<img src="../../blog/figs/2017-01-14-min_ODE_systems_complex_roots/simple_ode_system.png" alt="None" width="300">
