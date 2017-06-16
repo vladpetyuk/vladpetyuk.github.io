@@ -23,15 +23,20 @@ description: Vlad Petyuk's personal web page
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
-avatar: "/img/vlad_avatar.png"
+avatar: "/img/vlad_avatar2.jpg"
+
+collections:
+- my_collection
 
 # List of links in the navigation bar
 navbar-links:
   #Home: ""
   Posts: "posts.html"
   Research: "research.html"
-  About Me: "aboutme.html"
+  CV: "cv.html"
   #Contact: "contact.html"
+  # Resume: "my_collection/resume.html"
+  # Resume2: "resume.html"
 
 # --- Footer options --- #
 
@@ -64,7 +69,7 @@ url-pretty: "vladpetyuk.github.io"  # eg. "deanattali.com/beautiful-jekyll"
 # --- Misc --- #
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
-#disqus: ""
+disqus: "disqus_xCl73bqyqm"
 
 # Fill in your Google Analytics ID to track your website using GA
 google_analytics: "UA-70478698-1"
@@ -76,6 +81,7 @@ timezone: "America/Vancouver"
 markdown: kramdown
 kramdown:
   input: GFM
+  toc_levels: "1"
   # syntax_highlighter: rouge
 # markdown: redcarpet
 #encoding: utf-8
