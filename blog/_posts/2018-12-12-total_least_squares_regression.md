@@ -43,6 +43,7 @@ abline(m1, col="red")
 {% endhighlight %}
 
 ![figure](/blog/figs/2018-12-12-total_least_squares_regression/unnamed-chunk-2-1.png)
+
 The slope of that line doesn't look right. Isn't it?
 
 ## Total least squares leveraging PCA

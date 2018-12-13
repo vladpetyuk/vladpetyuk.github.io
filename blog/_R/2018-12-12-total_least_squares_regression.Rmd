@@ -37,6 +37,7 @@ m1 <- lm(y ~ x)
 plot(x,y)
 abline(m1, col="red")
 ```
+
 The slope of that line doesn't look right. Isn't it?
 
 ## Total least squares leveraging PCA
