@@ -23,7 +23,7 @@ description: Vlad Petyuk's personal web page
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
-avatar: "/img/vlad_avatar2.jpg"
+avatar: "/img/vlad_avatar.png"
 
 collections:
 - my_collection
